@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -9,7 +9,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
-const CategoryForm = ({category, addCategory, editCategory}) => {
+const CategoryForm = ({ category, addCategory, editCategory }) => {
   const [open, setOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
   const [edit, setEdit] = useState(false);
@@ -23,8 +23,8 @@ const CategoryForm = ({category, addCategory, editCategory}) => {
 
   const handleNamechange = (event) => {
     setCategoryName(event.target.value)
-  } 
-  
+  }
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -38,7 +38,7 @@ const CategoryForm = ({category, addCategory, editCategory}) => {
     if (edit) {
       editCategory(category, categoryName)
     } else {
-      addCategory({name: categoryName})
+      addCategory({ name: categoryName })
     }
     handleClose()
   }
@@ -83,17 +83,17 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   addCategory(category) {
     dispatch({
-        type: "ADD_CATEGORY",
-        category
+      type: "ADD_CATEGORY",
+      category
     })
   },
   editCategory(category, name) {
     dispatch({
-        type: "EDIT_CATEGORY",
-        category,
-        attributes: {name: name}
+      type: "EDIT_CATEGORY",
+      category,
+      attributes: { name: name }
     })
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps) (CategoryForm)
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryForm)

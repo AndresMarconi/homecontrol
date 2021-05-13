@@ -1,4 +1,4 @@
-import React ,{ useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Destination = ({destinations, setTitle}) => {
+const Destination = ({ destinations, setTitle }) => {
   const classes = useStyles();
   useEffect(() => {
     setTitle("Destinatarios")
@@ -76,16 +76,16 @@ const Destination = ({destinations, setTitle}) => {
 
 const mapStateToProps = state => ({
   title: state.title,
-  destinations: state.destinations
+  destinations: state.destinations.destinations
 })
 
 const mapDispatchToProps = dispatch => ({
   setTitle(title) {
-      dispatch({
-          type: "SET_TITLE",
-          title
-      })
+    dispatch({
+      type: "SET_TITLE",
+      title
+    })
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps) (Destination)
+export default connect(mapStateToProps, mapDispatchToProps)(Destination)

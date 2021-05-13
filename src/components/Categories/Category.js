@@ -1,4 +1,4 @@
-import React ,{ useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Category = ({categories, setTitle}) => {
+const Category = ({ categories, setTitle }) => {
   const classes = useStyles();
   useEffect(() => {
     setTitle("Categorias")
@@ -64,7 +64,7 @@ const Category = ({categories, setTitle}) => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button  variant="outlined" color="Success">Estadisticas</Button>
+                <Button variant="outlined" color="Success">Estadisticas</Button>
                 <CategoryForm category={category} />
                 <Button variant="outlined" color="danger">
                   Eliminar
@@ -72,9 +72,9 @@ const Category = ({categories, setTitle}) => {
               </CardActions>
             </Card>
           ))}
-          
+
           <CategoryForm category={null} />
-          
+
         </Grid>
         <Grid item xs={8}>
           <Paper className={classes.paper}></Paper>
@@ -86,17 +86,17 @@ const Category = ({categories, setTitle}) => {
 
 const mapStateToProps = state => ({
   title: state.title,
-  categories: state.categories
+  categories: state.categories.categories
 })
 
 const mapDispatchToProps = dispatch => ({
   setTitle(title) {
     dispatch({
-        type: "SET_TITLE",
-        title
+      type: "SET_TITLE",
+      title
     })
   },
-  
+
 })
 
-export default connect(mapStateToProps, mapDispatchToProps) (Category)
+export default connect(mapStateToProps, mapDispatchToProps)(Category)

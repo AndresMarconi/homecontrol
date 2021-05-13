@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 
 function preventDefault(event) {
   event.preventDefault();
-} 
+}
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -21,9 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Expenses = ({expenses}) => {
+const Expenses = ({ expenses }) => {
   const classes = useStyles()
-  
+
   return (
     <React.Fragment>
       <Title>Ultimos gastos</Title>
@@ -57,9 +57,9 @@ const Expenses = ({expenses}) => {
 }
 
 const mapStateToProps = state => ({
-  expenses: state.expenses
+  expenses: state.expenses.expenses
 })
 
 const mapDispatchToProps = dispatch => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps) (Expenses)
+export default connect(mapStateToProps, mapDispatchToProps)(Expenses)
