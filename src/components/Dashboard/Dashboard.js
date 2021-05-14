@@ -1,4 +1,4 @@
-import React ,{ useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { connect } from "react-redux";
 
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = ({setTitle}) => {
+const Dashboard = ({ setTitle }) => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -80,7 +80,7 @@ const Dashboard = ({setTitle}) => {
             <Paper className={fixedHeightPaper}>
               <Deposits />
             </Paper>
-          </Grid>         
+          </Grid>
         </Grid>
         <Box pt={4}>
           <Copyright />
@@ -91,17 +91,17 @@ const Dashboard = ({setTitle}) => {
 }
 
 const mapStateToProps = state => ({
-  title: state.title
+  title: state.pageConfig.title,
 })
 
 const mapDispatchToProps = dispatch => ({
   setTitle(title) {
-      dispatch({
-          type: "SET_TITLE",
-          title
-      })
+    dispatch({
+      type: "SET_TITLE",
+      title
+    })
   }
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps) (Dashboard)
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

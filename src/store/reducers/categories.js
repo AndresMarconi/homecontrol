@@ -1,15 +1,11 @@
-import { Category } from '../model/Category'
+import { Category } from '../../model/Category'
 
 const initialState = {
-    title: "",
     categories: Category.getCategories(),
 }
 
 const categoryReducer = (state = initialState, action) => {
     switch (action.type) {
-
-        case "SET_TITLE":
-            return { ...state, title: action.title }
         case "ADD_CATEGORY":
             let cat = new Category({ name: action.category.name })
             return { ...state, categories: state.categories.concat(cat) }

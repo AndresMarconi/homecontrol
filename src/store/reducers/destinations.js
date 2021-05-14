@@ -1,4 +1,4 @@
-import { Destination } from '../model/Destination'
+import { Destination } from '../../model/Destination'
 
 const initialState = {
     destinations: Destination.getDestinations(),

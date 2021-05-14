@@ -4,10 +4,31 @@ import './index.css';
 import App from './App';
 //import reportWebVitals from './reportWebVitals';
 
+import { Provider } from "react-redux"
+import initStore from './store/reducers/initStore'
+import {
+  ReactReduxFirebaseProvider,
+} from 'react-redux-firebase'
+import { createFirestoreInstance } from 'redux-firestore'
+import firebase from 'firebase/app'
+import firebaseConfig from './config/firebase'
+
+const store = initStore()
+
+const rrfProps = {
+  firebase,
+  config: firebaseConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance,
+}
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <ReactReduxFirebaseProvider {...rrfProps}></ReactReduxFirebaseProvider>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 

@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navigation = ({title}) => {
+const Navigation = ({ title }) => {
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -151,9 +151,9 @@ const Navigation = ({title}) => {
 }
 
 const mapStateToProps = state => ({
-  title: state.title
+  title: state.pageConfig.title
 })
 
 const mapDispatchToProps = dispatch => ({})
 
-export default connect(mapStateToProps, mapDispatchToProps) (Navigation)
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation)

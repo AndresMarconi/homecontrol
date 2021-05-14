@@ -85,7 +85,7 @@ const Category = ({ categories, setTitle }) => {
 }
 
 const mapStateToProps = state => ({
-  title: state.title,
+  title: state.pageConfig.title,
   categories: state.categories.categories
 })
 
@@ -95,8 +95,7 @@ const mapDispatchToProps = dispatch => ({
       type: "SET_TITLE",
       title
     })
-  },
-
+  }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Category)

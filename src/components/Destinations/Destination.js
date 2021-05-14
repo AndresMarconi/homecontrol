@@ -75,7 +75,7 @@ const Destination = ({ destinations, setTitle }) => {
 }
 
 const mapStateToProps = state => ({
-  title: state.title,
+  title: state.pageConfig.title,
   destinations: state.destinations.destinations
 })
 
