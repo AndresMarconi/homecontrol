@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import { addCategory } from '../../store/actions/categoryActions'
+import { addCategory, updateCategory } from '../../store/actions/categoryActions'
 
 const CategoryForm = ({ category, addCategory, editCategory, createCategory }) => {
   const [open, setOpen] = useState(false);
@@ -37,7 +37,8 @@ const CategoryForm = ({ category, addCategory, editCategory, createCategory }) =
 
   const handleAccept = () => {
     if (edit) {
-      editCategory(category, categoryName)
+      const cat = { ...category, name: categoryName }
+      editCategory(cat)
     } else {
       //addCategory({ name: categoryName })
       createCategory({ name: categoryName })
@@ -89,14 +90,9 @@ const mapDispatchToProps = dispatch => ({
       category
     })
   },
-  editCategory(category, name) {
-    dispatch({
-      type: "EDIT_CATEGORY",
-      category,
-      attributes: { name: name }
-    })
-  },
-  createCategory(category) { dispatch(addCategory(category)) }
-})
+  editCategory: category => dispatch(updateCategory(category)),
+  createCategory: category => dispatch(addCategory(category))
+}
+)
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryForm)

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from "react-redux";
+import { compose } from "redux"
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -10,6 +11,8 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import CategoryForm from './CategoryForm'
+import { firestoreConnect } from 'react-redux-firebase'
+import { removeCategory } from '../../store/actions/categoryActions'
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -46,17 +49,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Category = ({ categories, setTitle }) => {
+const Category = ({ categories, deleteCategory, setTitle }) => {
   const classes = useStyles();
   useEffect(() => {
     setTitle("Categorias")
   })
+
+  const handleRemove = category => { deleteCategory(category) };
+
+
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
       <Grid container spacing={3}>
         <Grid item xs={4}>
-          {categories.map((category) => (
+          {categories && categories.map((category) => (
             <Card className={classes.root}>
               <CardContent>
                 <Typography variant="h5" component="h2">
@@ -66,7 +73,7 @@ const Category = ({ categories, setTitle }) => {
               <CardActions>
                 <Button variant="outlined" color="Success">Estadisticas</Button>
                 <CategoryForm category={category} />
-                <Button variant="outlined" color="danger">
+                <Button onClick={() => handleRemove(category)} variant="outlined" color="danger">
                   Eliminar
                 </Button>
               </CardActions>
@@ -84,18 +91,20 @@ const Category = ({ categories, setTitle }) => {
   );
 }
 
-const mapStateToProps = state => ({
-  title: state.pageConfig.title,
-  categories: state.categories.categories
-})
+const mapStateToProps = state => {
+  const pageTitle = state.pageConfig.title;
+  const categories = state.firestore.ordered.category;
+  return { categories: categories, title: pageTitle };
+}
 
-const mapDispatchToProps = dispatch => ({
-  setTitle(title) {
-    dispatch({
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteCategory: category => dispatch(removeCategory(category)),
+    setTitle: (title) => dispatch({
       type: "SET_TITLE",
       title
     })
-  }
-})
+  };
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Category)
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect(ownProps => [{ collection: "category" }]))(Category);

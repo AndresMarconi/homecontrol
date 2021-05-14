@@ -9,3 +9,26 @@ export const addCategory = (category) => {
         })
     }
 }
+
+export const removeCategory = (category) => {
+    return (dispatch, getState, { getFirestore }) => {
+        const firestore = getFirestore();
+        firestore.collection('category').doc(category.id).delete().then(() => {
+            console.log('Category removed successfully')
+        }).catch((err) => {
+            console.log(err);;
+        })
+    }
+}
+
+export const updateCategory = (category) => {
+    console.log(category);
+    return (dispatch, getState, { getFirestore }) => {
+        const firestore = getFirestore();
+        firestore.collection('category').doc(category.id).update({ name: category.name }).then(() => {
+            console.log('Category updated successfully')
+        }).catch((err) => {
+            console.log(err);;
+        })
+    }
+}
