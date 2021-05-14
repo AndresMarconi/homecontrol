@@ -10,7 +10,7 @@ export const addDestination = (destination) => {
     }
 }
 
-export const removedestination = (destination) => {
+export const removeDestination = (destination) => {
     return (dispatch, getState, { getFirestore }) => {
         const firestore = getFirestore();
         firestore.collection('destination').doc(destination.id).delete().then(() => {
@@ -21,7 +21,7 @@ export const removedestination = (destination) => {
     }
 }
 
-export const updatedestination = (destination) => {
+export const updateDestination = (destination) => {
     console.log(destination);
     return (dispatch, getState, { getFirestore }) => {
         const firestore = getFirestore();

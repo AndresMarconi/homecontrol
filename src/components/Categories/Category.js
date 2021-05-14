@@ -107,4 +107,4 @@ const mapDispatchToProps = dispatch => {
   };
 }
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect(ownProps => [{ collection: "category" }]))(Category);
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect(ownProps => [{ collection: "category", orderBy: ["name", "asc"] }]))(Category);

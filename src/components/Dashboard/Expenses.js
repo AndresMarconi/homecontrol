@@ -1,4 +1,7 @@
 import React from 'react';
+import { compose } from "redux"
+
+import moment from 'moment'
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -7,6 +10,10 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
+import { firestoreConnect } from 'react-redux-firebase'
+import { removeExpense, addExpense, updateExpense } from '../../store/actions/expenseActions'
+
+
 //import {Expense} from '../../model/Expense'
 
 import { connect } from "react-redux";
@@ -37,9 +44,9 @@ const Expenses = ({ expenses }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {expenses.map((row) => (
+          {expenses && expenses.map((row) => (
             <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
+              <TableCell>{moment(row.date.toDate()).calendar()}</TableCell>
               <TableCell>{row.category.name}</TableCell>
               <TableCell>{row.destination.name}</TableCell>
               <TableCell align="right">{row.amount}</TableCell>
@@ -56,10 +63,20 @@ const Expenses = ({ expenses }) => {
   );
 }
 
-const mapStateToProps = state => ({
-  expenses: state.expenses.expenses
-})
+const mapStateToProps = state => {
+  const pageTitle = state.pageConfig.title;
+  const expenses = state.firestore.ordered.expense;
+  return { expenses: expenses, title: pageTitle };
+}
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteExpense: expense => dispatch(removeExpense(expense)),
+    setTitle: (title) => dispatch({
+      type: "SET_TITLE",
+      title
+    })
+  };
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Expenses)
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect(ownProps => [{ collection: "expense" }]))(Expenses);

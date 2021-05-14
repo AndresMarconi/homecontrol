@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from "react-redux";
+import { compose } from "redux"
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -8,6 +9,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import { firestoreConnect } from 'react-redux-firebase'
+import { removeDestination, addDestination, updateDestination } from '../../store/actions/destinationActions'
+
+
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -53,7 +58,7 @@ const Destination = ({ destinations, setTitle }) => {
       <div className={classes.appBarSpacer} />
       <Grid container spacing={3}>
         <Grid item xs={4}>
-          {destinations.map((destination) => (
+          {destinations && destinations.map((destination) => (
             <Card className={classes.root}>
               <CardContent>
                 <Typography variant="h5" component="h2">
@@ -74,18 +79,20 @@ const Destination = ({ destinations, setTitle }) => {
   );
 }
 
-const mapStateToProps = state => ({
-  title: state.pageConfig.title,
-  destinations: state.destinations.destinations
-})
+const mapStateToProps = state => {
+  const pageTitle = state.pageConfig.title;
+  const destinations = state.firestore.ordered.destination;
+  return { destinations: destinations, title: pageTitle };
+}
 
-const mapDispatchToProps = dispatch => ({
-  setTitle(title) {
-    dispatch({
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteDestination: destination => dispatch(removeDestination(destination)),
+    setTitle: (title) => dispatch({
       type: "SET_TITLE",
       title
     })
-  }
-})
+  };
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Destination)
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect(ownProps => [{ collection: "destination" }]))(Destination);
