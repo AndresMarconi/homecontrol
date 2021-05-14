@@ -2,13 +2,13 @@ import firebase from "firebase/app"
 import 'firebase/firestore'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCg6LkOhYttgGAxLbJsVZ1Q2lt30Oj_KK8",
-    authDomain: "homecontrol-ar.firebaseapp.com",
-    projectId: "homecontrol-ar",
-    storageBucket: "homecontrol-ar.appspot.com",
-    messagingSenderId: "758620182203",
-    appId: "1:758620182203:web:1f1c5887a3e5fe65277b9e",
-    measurementId: "G-J7YK05PKZ2"
+    apiKey: process.env.REACT_APP_APIKEY,
+    authDomain: process.env.REACT_APP_AUTHDOMAIN,
+    projectId: process.env.REACT_APP_PROJECTID,
+    storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+    appId: process.env.REACT_APP_APPID,
+    measurementId: process.env.REACT_APP_MEASUREMENTID
 };
 
 firebase.initializeApp(firebaseConfig);
