@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -50,14 +51,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = ({ setTitle }) => {
+const Dashboard = ({ uid, setTitle }) => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   useEffect(() => {
     setTitle("Panel de Control")
   })
-
+  if (!uid) return <Redirect to="/" />
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
@@ -90,9 +91,13 @@ const Dashboard = ({ setTitle }) => {
   );
 }
 
-const mapStateToProps = state => ({
-  title: state.pageConfig.title,
-})
+const mapStateToProps = state => {
+  const uid = state.firebase.auth.uid;
+  return {
+    uid: uid,
+    title: state.pageConfig.title,
+  };
+}
 
 const mapDispatchToProps = dispatch => ({
   setTitle(title) {

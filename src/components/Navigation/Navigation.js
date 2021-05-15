@@ -14,7 +14,17 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
+
+import { signOut } from '../../store/actions/authActions'
 import { connect } from "react-redux";
+import { Link } from 'react-router-dom'
+
 
 const drawerWidth = 240;
 
@@ -94,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navigation = ({ title }) => {
+const Navigation = ({ title, signOut }) => {
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -144,6 +154,18 @@ const Navigation = ({ title }) => {
         <List>{mainListItems}</List>
         <Divider />
         <List>{secondaryListItems}</List>
+        <Divider />
+        <div>
+          <ListSubheader inset>Options</ListSubheader>
+          <Link to="/" className="nav-link" onClick={signOut}>
+            <ListItem button>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Cerrar Sesión" />
+            </ListItem>
+          </Link>
+        </div>
       </Drawer>
     </div>
   );
@@ -154,6 +176,10 @@ const mapStateToProps = state => ({
   title: state.pageConfig.title
 })
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: () => dispatch(signOut()),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
