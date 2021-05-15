@@ -6,12 +6,14 @@ import categories from './categories'
 import destinations from './destinations'
 import expenses from './expenses'
 import pageConfig from './pageConfig'
+import authReducer from './auth'
 
 export default combineReducers({
     categories,
     destinations,
     expenses,
     pageConfig,
+    auth: authReducer,
     firebase: firebaseReducer,
     firestore: firestoreReducer
 })
