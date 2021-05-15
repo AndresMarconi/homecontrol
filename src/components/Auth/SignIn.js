@@ -13,12 +13,17 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import { connect } from "react-redux";
+import { signIn } from '../../store/actions/authActions'
+import { Form, Field } from "react-final-form"
+import { Redirect } from "react-router-dom";
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="https://material-ui.com/">
-                Your Website
+                Home Control
       </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -46,9 +51,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignIn() {
+const SignIn = ({ uid, loginUser }) => {
     const classes = useStyles();
-
+    if (uid) return <Redirect to="/dashboard" />
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -59,55 +64,71 @@ export default function SignIn() {
                 <Typography component="h1" variant="h5">
                     Sign in
         </Typography>
-                <form className={classes.form} noValidate>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Sign In
+                <Form
+                    onSubmit={formObj => {
+                        console.log(formObj);
+                        loginUser(formObj)
+                    }}
+                >
+                    {({ handleSubmit }) => (
+                        <form className={classes.form} onSubmit={handleSubmit} noValidate>
+                            <Field name="email">
+                                {({ input }) => (
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="email"
+                                        label="Email Address"
+                                        name="email"
+                                        autoComplete="email"
+                                        autoFocus
+                                        {...input}
+                                    />)}
+                            </Field>
+                            <Field name="password">{({ input }) => (
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    {...input}
+                                />)}
+                            </Field>
+                            <FormControlLabel
+                                control={<Checkbox value="remember" color="primary" />}
+                                label="Remember me"
+                            />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            >
+                                Sign In
           </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant="body2">
-                                Forgot password?
+                            <Grid container>
+                                <Grid item xs>
+                                    <Link href="#" variant="body2">
+                                        Forgot password?
               </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="#" variant="body2">
-                                {"Don't have an account? Sign Up"}
-                            </Link>
-                        </Grid>
-                    </Grid>
-                </form>
+                                </Grid>
+                                <Grid item>
+                                    <Link href="#" variant="body2">
+                                        {"Don't have an account? Sign Up"}
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                        </form>
+                    )}
+                </Form>
             </div>
             <Box mt={8}>
                 <Copyright />
@@ -115,3 +136,18 @@ export default function SignIn() {
         </Container>
     );
 }
+
+const mapStateToProps = state => {
+    const uid = state.firebase.auth.uid;
+    return {
+        uid: uid,
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        loginUser: creds => dispatch(signIn(creds)),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

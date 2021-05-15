@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-import firebaseReducer from 'react-redux-firebase'
+import { firebaseReducer } from 'react-redux-firebase'
 import { firestoreReducer } from 'redux-firestore';
 import categories from './categories'
 import destinations from './destinations'

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,6 +15,7 @@ import Container from '@material-ui/core/Container';
 
 import { connect } from "react-redux";
 import { signUp } from '../../store/actions/authActions'
+import { Form, Field } from "react-final-form"
 
 function Copyright() {
     return (
@@ -52,22 +53,6 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = ({ createUser }) => {
     const classes = useStyles();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
-    const handleEmailchange = (event) => {
-        setEmail(event.target.value)
-    }
-
-    const handlePasswordchange = (event) => {
-        setPassword(event.target.value)
-    }
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const creds = { email: email, password: password };
-        createUser(creds);
-    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -79,56 +64,72 @@ const SignUp = ({ createUser }) => {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <form onSubmit={handleSubmit}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                type="email"
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                onChange={handleEmailchange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                onChange={handlePasswordchange}
-                            />
-                        </Grid>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                        >
-                            Sign Up
+                <Form
+                    onSubmit={formObj => {
+                        console.log(formObj);
+                        createUser(formObj)
+                    }}
+                >
+                    {({ handleSubmit }) => (
+                        <form onSubmit={handleSubmit}>
+                            <Grid container spacing={2}>
+                                <Field name="email">
+                                    {({ input }) => (
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                type="email"
+                                                id="email"
+                                                label="Email Address"
+                                                name="email"
+                                                {...input}
+                                            />
+                                        </Grid>
+                                    )}
+                                </Field>
+                                <Field name="password">
+                                    {({ input }) => (
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                name="password"
+                                                label="Password"
+                                                type="password"
+                                                id="password"
+                                                {...input}
+                                            />
+                                        </Grid>
+                                    )}
+                                </Field>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                >
+                                    Sign Up
                             </Button>
-                    </Grid>
-                </form>
+                            </Grid>
+                        </form>
+                    )}
+                </Form>
             </div>
             <Box mt={5}>
                 <Copyright />
             </Box>
-        </Container >
+        </Container>
     );
 
 }
 
-const mapStateToProps = (state) => {
-    return {
-    };
-};
+const mapStateToProps = state => {
+    return {};
+}
 
 const mapDispatchToProps = dispatch => {
     return {
