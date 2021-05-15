@@ -1,7 +1,9 @@
 export const addCategory = (category) => {
     return (dispatch, getState, { getFirestore }) => {
+
+        const uid = getState().firebase.auth.uid;
         const firestore = getFirestore();
-        firestore.collection('category').add({ ...category, createdAt: new Date() }).then(() => {
+        firestore.collection('category').add({ ...category, createdAt: new Date(), authorId: uid }).then(() => {
             dispatch({ type: "ADD_CATEGORY" })
             console.log('Category added successfully')
         }).catch((err) => {

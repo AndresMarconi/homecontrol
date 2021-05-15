@@ -16,6 +16,7 @@ import Container from '@material-ui/core/Container';
 import { connect } from "react-redux";
 import { signUp } from '../../store/actions/authActions'
 import { Form, Field } from "react-final-form"
+import { Redirect } from "react-router-dom";
 
 function Copyright() {
     return (
@@ -51,9 +52,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const SignUp = ({ createUser }) => {
+const SignUp = ({ uid, createUser }) => {
     const classes = useStyles();
-
+    if (uid) return <Redirect to="/dashboard" />
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -128,9 +129,11 @@ const SignUp = ({ createUser }) => {
 }
 
 const mapStateToProps = state => {
-    return {};
+    const uid = state.firebase.auth.uid;
+    return {
+        uid: uid,
+    };
 }
-
 const mapDispatchToProps = dispatch => {
     return {
         createUser: creds => dispatch(signUp(creds)),

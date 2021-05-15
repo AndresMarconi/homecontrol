@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import { signIn } from '../../store/actions/authActions'
 import { Form, Field } from "react-final-form"
 import { Redirect } from "react-router-dom";
+import { Link as RouterLink } from 'react-router-dom'
 
 function Copyright() {
     return (
@@ -121,9 +122,9 @@ const SignIn = ({ uid, loginUser }) => {
               </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="#" variant="body2">
+                                    <RouterLink to="/signup" variant="body2">
                                         {"Don't have an account? Sign Up"}
-                                    </Link>
+                                    </RouterLink>
                                 </Grid>
                             </Grid>
                         </form>

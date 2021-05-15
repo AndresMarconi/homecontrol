@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Category = ({ categories, deleteCategory, setTitle }) => {
+const Category = ({ uid, categories, deleteCategory, setTitle }) => {
   const classes = useStyles();
   useEffect(() => {
     setTitle("Categorias")
@@ -94,7 +94,8 @@ const Category = ({ categories, deleteCategory, setTitle }) => {
 const mapStateToProps = state => {
   const pageTitle = state.pageConfig.title;
   const categories = state.firestore.ordered.category;
-  return { categories: categories, title: pageTitle };
+  const uid = state.firebase.auth.uid;
+  return { uid: uid, categories: categories, title: pageTitle };
 }
 
 const mapDispatchToProps = dispatch => {
@@ -107,4 +108,9 @@ const mapDispatchToProps = dispatch => {
   };
 }
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect(ownProps => [{ collection: "category", orderBy: ["name", "asc"] }]))(Category);
+export default compose(connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect(ownProps => [{
+    collection: "category",
+    where: ["authorId", '==', ownProps.uid],
+    orderBy: ["name", "asc"]
+  }]))(Category);

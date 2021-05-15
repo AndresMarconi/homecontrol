@@ -28,7 +28,7 @@ export const signUp = creds => {
         const firebase = getFirebase();
 
         firebase.auth().createUserWithEmailAndPassword(creds.email, creds.password).then(() => {
-
+            dispatch({ type: "SIGN_UP" });
         }).catch((err) => {
             console.log(err);
         })
