@@ -10,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { addCategory, updateCategory } from '../../store/actions/categoryActions'
 
-const CategoryForm = ({ category, addCategory, editCategory, createCategory }) => {
+const CategoryForm = ({ category, editCategory, createCategory }) => {
   const [open, setOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
   const [edit, setEdit] = useState(false);

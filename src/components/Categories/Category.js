@@ -77,9 +77,7 @@ const Category = ({ uid, categories, deleteCategory, setTitle }) => {
               </CardActions>
             </Card>
           ))}
-
           <CategoryForm category={null} />
-
         </Grid>
         <Grid item xs={8}>
           <Paper className={classes.paper}></Paper>

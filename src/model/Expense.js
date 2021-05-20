@@ -1,11 +1,12 @@
 export class Expense {
 
-  constructor({ docId = -1, date = "00/00/0000", amount = 0, category = { docId: -1, name: "" }, destination = { docId: -1, name: "" } }) {
+  constructor({ docId = -1, date = "00/00/0000", amount = 0, category = { docId: -1, name: "" }, destination = { docId: -1, name: "" }, description = "" }) {
     this.docId = docId
     this.date = date
     this.category = category
     this.amount = amount
     this.destination = destination
+    this.description = description
   }
 
 
