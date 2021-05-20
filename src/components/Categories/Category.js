@@ -88,11 +88,10 @@ const Category = ({ uid, categories, deleteCategory, setTitle }) => {
 }
 
 const mapStateToProps = state => {
+  console.log(state);
   const pageTitle = state.pageConfig.title;
   const categories = state.firestore.ordered.category;
-  const uid = state.firebase.auth.uid;
-  console.log(uid);
-  return { uid: uid, categories: categories, title: pageTitle };
+  return { uid: state.firebase.auth.uid, categories: categories, title: pageTitle };
 }
 
 const mapDispatchToProps = dispatch => {
