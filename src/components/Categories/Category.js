@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const Category = ({ uid, categories, deleteCategory, setTitle }) => {
   const classes = useStyles();
   useEffect(() => {
@@ -56,7 +55,6 @@ const Category = ({ uid, categories, deleteCategory, setTitle }) => {
   })
 
   const handleRemove = category => { deleteCategory(category) };
-
 
   return (
     <main className={classes.content}>
@@ -95,6 +93,7 @@ const mapStateToProps = state => {
   const pageTitle = state.pageConfig.title;
   const categories = state.firestore.ordered.category;
   const uid = state.firebase.auth.uid;
+  console.log(uid);
   return { uid: uid, categories: categories, title: pageTitle };
 }
 

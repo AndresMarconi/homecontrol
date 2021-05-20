@@ -9,10 +9,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import DestinationForm from './DestinationForm'
 import { firestoreConnect } from 'react-redux-firebase'
-import { removeDestination, addDestination, updateDestination } from '../../store/actions/destinationActions'
-
-
+import { removeDestination } from '../../store/actions/destinationActions'
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -48,11 +47,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Destination = ({ destinations, setTitle }) => {
+const Destination = ({ destinations, deleteDestination, setTitle }) => {
   const classes = useStyles();
   useEffect(() => {
     setTitle("Destinatarios")
   })
+  const handleRemove = destination => { deleteDestination(destination) };
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
@@ -66,10 +66,15 @@ const Destination = ({ destinations, setTitle }) => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small">Seleccionar</Button>
+                <Button variant="outlined" color="Success">Estadisticas</Button>
+                <DestinationForm destination={destination} />
+                <Button onClick={() => handleRemove(destination)} variant="outlined" color="danger">
+                  Eliminar
+                </Button>
               </CardActions>
             </Card>
           ))}
+          <DestinationForm destination={null} />
         </Grid>
         <Grid item xs={8}>
           <Paper className={classes.paper}></Paper>
@@ -82,7 +87,8 @@ const Destination = ({ destinations, setTitle }) => {
 const mapStateToProps = state => {
   const pageTitle = state.pageConfig.title;
   const destinations = state.firestore.ordered.destination;
-  return { destinations: destinations, title: pageTitle };
+  const uid = state.firebase.auth.uid;
+  return { uid: uid, destinations: destinations, title: pageTitle };
 } 
 
 const mapDispatchToProps = dispatch => {
@@ -95,4 +101,9 @@ const mapDispatchToProps = dispatch => {
   };
 }
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect(ownProps => [{ collection: "destination" }]))(Destination);
+export default compose(connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect(ownProps => [{
+    collection: "destination",
+    where: ["authorId", '==', ownProps.uid],
+    orderBy: ["name", "asc"]
+  }]))(Destination);
