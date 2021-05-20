@@ -83,7 +83,7 @@ const mapStateToProps = state => {
   const pageTitle = state.pageConfig.title;
   const destinations = state.firestore.ordered.destination;
   return { destinations: destinations, title: pageTitle };
-}
+} 
 
 const mapDispatchToProps = dispatch => {
   return {
