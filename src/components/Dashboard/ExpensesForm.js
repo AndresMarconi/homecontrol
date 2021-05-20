@@ -12,18 +12,36 @@ import { addExpense, updateExpense } from '../../store/actions/expenseActions'
 
 const ExpenseForm = ({ expense, editExpense, createExpense }) => {
   const [open, setOpen] = useState(false);
-  const [expenseName, setExpenseName] = useState("");
+  const [expensePlace, setExpensePlace] = useState({date: "", amount: 0, category: { docId: "", name: "" }, destination: { docId: "", name: "" }, description: ""});
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     if (expense) {
-      setExpenseName(expense.name)
+      setExpensePlace(expense)
       setEdit(true)
     }
   }, [expense])
 
   const handleNamechange = (event) => {
-    setExpenseName(event.target.value)
+    switch (event.target.id) {
+      case 'amount':
+        setExpensePlace({...expensePlace, amount: event.target.value})
+        break;
+      case 'description':
+        setExpensePlace({...expensePlace, description: event.target.value})
+        break;
+      case 'category':
+        setExpensePlace({...expensePlace, category: event.target.value})
+        break;
+      case 'destination':
+        setExpensePlace({...expensePlace, destination: event.target.value})
+        break;
+      case 'date':
+        setExpensePlace({...expensePlace, date: event.target.value})
+        break;
+      default:
+        break;
+    }
   }
 
   const handleClickOpen = () => {
@@ -31,16 +49,17 @@ const ExpenseForm = ({ expense, editExpense, createExpense }) => {
   };
 
   const handleClose = () => {
-    expense ? setExpenseName(expenseName) : setExpenseName("")
+    expense ? setExpensePlace(expensePlace) : setExpensePlace({date: "", amount: 0, category: { docId: "", name: "" }, destination: { docId: "", name: "" }, description: ""})
     setOpen(false);
   };
 
   const handleAccept = () => {
+    console.log(edit, expense, expensePlace)
     if (edit) {
-      const cat = { ...expense, name: expenseName }
-      editExpense(cat)
+      //const exp = { ...expense, amount: ExpensePlace.amount }
+      editExpense(expensePlace)
     } else {
-      createExpense({ name: expenseName })
+      createExpense(expensePlace)
     }
     handleClose()
   }
@@ -54,20 +73,20 @@ const ExpenseForm = ({ expense, editExpense, createExpense }) => {
         <DialogTitle id="form-dialog-title">{edit ? "Editar" : "Agregar"} Gasto</DialogTitle>
         <DialogContent>
           <DialogContentText></DialogContentText>
-          <TextField autoFocus margin="dense" id="name" label="Nombre" type="text" fullWidth
-            value={expenseName}
+          <TextField autoFocus margin="dense" id="date" label="Fecha" type="text" fullWidth
+            value={expensePlace.date}
             onChange={handleNamechange}/>
-          <TextField autoFocus margin="dense" id="name" label="Nombre" type="text" fullWidth
-            value={expenseName}
+          <TextField autoFocus margin="dense" id="category" label="Categoria" type="text" fullWidth
+            value={expensePlace.category.name}
             onChange={handleNamechange}/>
-          <TextField autoFocus margin="dense" id="name" label="Nombre" type="text" fullWidth
-            value={expenseName}
+          <TextField autoFocus margin="dense" id="destination" label="Destinatario" type="text" fullWidth
+            value={expensePlace.destination.name}
             onChange={handleNamechange}/>
-          <TextField autoFocus margin="dense" id="name" label="Nombre" type="text" fullWidth
-            value={expenseName}
+          <TextField autoFocus margin="dense" id="amount" label="Monto" type="text" fullWidth
+            value={expensePlace.amount}
             onChange={handleNamechange}/>
-          <TextField autoFocus margin="dense" id="name" label="Nombre" type="text" fullWidth
-            value={expenseName}
+          <TextField autoFocus margin="dense" id="description" label="Descripcion" type="text" fullWidth
+            value={expensePlace.description}
             onChange={handleNamechange}/>
         </DialogContent>
         <DialogActions>
@@ -88,12 +107,6 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  addNewExpense(expense) {
-    dispatch({
-      type: "ADD_CATEGORY",
-      expense
-    })
-  },
   editExpense: expense => dispatch(updateExpense(expense)),
   createExpense: expense => dispatch(addExpense(expense))
 })

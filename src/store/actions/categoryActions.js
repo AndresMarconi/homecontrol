@@ -7,7 +7,7 @@ export const addCategory = (category) => {
             console.log('Category added successfully')
         }).catch((err) => {
             dispatch({ type: "ADD_CATEGORY_ERR" })
-            console.log(err);;
+            console.log(err)
         })
     }
 }
@@ -20,7 +20,7 @@ export const removeCategory = (category) => {
             console.log('Category removed successfully')
         }).catch((err) => {
             dispatch({ type: "REMOVE_CATEGORY_ERR" })
-            console.log(err);;
+            console.log(err)
         })
     }
 }
@@ -33,7 +33,7 @@ export const updateCategory = (category) => {
             dispatch({ type: "UPDATE_CATEGORY" })
             console.log('Category updated successfully')
         }).catch((err) => {
-            console.log(err);;
+            console.log(err)
         })
     }
 }
