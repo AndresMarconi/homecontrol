@@ -62,16 +62,16 @@ const Category = ({ uid, categories, deleteCategory, setTitle }) => {
       <Grid container spacing={3}>
         <Grid item xs={4}>
           {categories && categories.map((category) => (
-            <Card className={classes.root}>
+            <Card className={classes.root} key={category.name}>
               <CardContent>
                 <Typography variant="h5" component="h2">
                   {category.name}
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button variant="outlined" color="Success">Estadisticas</Button>
+                <Button variant="outlined">Estadisticas</Button>
                 <CategoryForm category={category} />
-                <Button onClick={() => handleRemove(category)} variant="outlined" color="danger">
+                <Button onClick={() => handleRemove(category)} variant="outlined">
                   Eliminar
                 </Button>
               </CardActions>

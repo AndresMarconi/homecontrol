@@ -59,16 +59,16 @@ const Destination = ({ destinations, deleteDestination, setTitle }) => {
       <Grid container spacing={3}>
         <Grid item xs={4}>
           {destinations && destinations.map((destination) => (
-            <Card className={classes.root}>
+            <Card className={classes.root} key={destination.name}>
               <CardContent>
                 <Typography variant="h5" component="h2">
                   {destination.name}
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button variant="outlined" color="Success">Estadisticas</Button>
+                <Button variant="outlined">Estadisticas</Button>
                 <DestinationForm destination={destination} />
-                <Button onClick={() => handleRemove(destination)} variant="outlined" color="danger">
+                <Button onClick={() => handleRemove(destination)} variant="outlined">
                   Eliminar
                 </Button>
               </CardActions>
@@ -88,6 +88,7 @@ const mapStateToProps = state => {
   const pageTitle = state.pageConfig.title;
   const destinations = state.firestore.ordered.destination;
   const uid = state.firebase.auth.uid;
+  console.log(uid)
   return { uid: uid, destinations: destinations, title: pageTitle };
 } 
 

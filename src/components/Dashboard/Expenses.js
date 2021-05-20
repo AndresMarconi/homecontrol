@@ -61,7 +61,7 @@ const Expenses = ({ expenses }) => {
       </div>
     </React.Fragment>
   );
-}
+} 
 
 const mapStateToProps = state => {
   const pageTitle = state.pageConfig.title;
