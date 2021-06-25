@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { connect } from "react-redux";
-import { compose } from "redux"
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -9,9 +9,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import DestinationForm from './DestinationForm'
-import { firestoreConnect } from 'react-redux-firebase'
-import { removeDestination } from '../../store/actions/destinationActions'
+import DestinationForm from './DestinationForm';
+import { firestoreConnect } from 'react-redux-firebase';
+import { removeDestination } from '../../store/actions/destinationActions';
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -30,14 +30,14 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     flexDirection: 'column',
     height: '90vh',
-    margin: 5
+    margin: 5,
   },
   fixedHeight: {
     height: 240,
   },
   root: {
     minWidth: 275,
-    margin: 5
+    margin: 5,
   },
   title: {
     fontSize: 14,
@@ -50,30 +50,41 @@ const useStyles = makeStyles((theme) => ({
 const Destination = ({ destinations, deleteDestination, setTitle }) => {
   const classes = useStyles();
   useEffect(() => {
-    setTitle("Destinatarios")
-  })
-  const handleRemove = destination => { deleteDestination(destination) };
+    setTitle('Destinatarios');
+  });
+  const handleRemove = (destination) => {
+    deleteDestination(destination);
+  };
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
       <Grid container spacing={3}>
         <Grid item xs={4}>
-          {destinations && destinations.map((destination) => (
-            <Card className={classes.root} key={destination.name}>
-              <CardContent>
-                <Typography variant="h5" component="h2">
-                  {destination.name}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button variant="outlined">Estadisticas</Button>
-                <DestinationForm destination={destination} />
-                <Button onClick={() => handleRemove(destination)} variant="outlined">
-                  Eliminar
-                </Button>
-              </CardActions>
-            </Card>
-          ))}
+          {destinations &&
+            destinations.map((destination) => (
+              <Card
+                variant='outlined'
+                className={classes.root}
+                key={destination.name}
+              >
+                <CardContent>
+                  <Typography variant='h5' component='h2'>
+                    {destination.name}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button variant='contained'>Estadisticas</Button>
+                  <DestinationForm destination={destination} />
+                  <Button
+                    onClick={() => handleRemove(destination)}
+                    variant='contained'
+                    color='secondary'
+                  >
+                    Eliminar
+                  </Button>
+                </CardActions>
+              </Card>
+            ))}
           <DestinationForm destination={null} />
         </Grid>
         <Grid item xs={8}>
@@ -82,29 +93,35 @@ const Destination = ({ destinations, deleteDestination, setTitle }) => {
       </Grid>
     </main>
   );
-}
+};
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const pageTitle = state.pageConfig.title;
   const destinations = state.firestore.ordered.destination;
   const uid = state.firebase.auth.uid;
-  console.log(uid)
+  console.log(uid);
   return { uid: uid, destinations: destinations, title: pageTitle };
-} 
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    deleteDestination: destination => dispatch(removeDestination(destination)),
-    setTitle: (title) => dispatch({
-      type: "SET_TITLE",
-      title
-    })
+    deleteDestination: (destination) =>
+      dispatch(removeDestination(destination)),
+    setTitle: (title) =>
+      dispatch({
+        type: 'SET_TITLE',
+        title,
+      }),
   };
-}
+};
 
-export default compose(connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect(ownProps => [{
-    collection: "destination",
-    where: ["authorId", '==', ownProps.uid],
-    orderBy: ["name", "asc"]
-  }]))(Destination);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect((ownProps) => [
+    {
+      collection: 'destination',
+      where: ['authorId', '==', ownProps.uid],
+      orderBy: ['name', 'asc'],
+    },
+  ])
+)(Destination);
